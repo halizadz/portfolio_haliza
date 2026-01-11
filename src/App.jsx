@@ -36,53 +36,68 @@ import {
 // ========== COMPONENT: MODERN SKILLS SECTION ==========
 function ModernSkillsSection() {
   const [activeSkill, setActiveSkill] = useState(null);
+  const { skills } = portfolioData;
 
-  // Skill Data
+  // Kelompokkan skill berdasarkan kategori
   const skillCategories = [
     {
       title: "Frontend Development",
       icon: <Layout size={28} />,
       color: "#8B5CF6",
-      skills: [
-        { name: "React", icon: "⚛️", level: "intermediate", projects: 3 },
-        { name: "JavaScript", icon: "📘", level: "intermediate", projects: 5 },
-        { name: "Tailwind CSS", icon: "🎨", level: "intermediate", projects: 4 },
-        { name: "HTML/CSS", icon: "🎯", level: "advanced", projects: 10 },
-        { name: "Bootstrap", icon: "🚀", level: "intermediate", projects: 3 }
-      ]
+      skills: skills.filter(skill => skill.category === 'frontend')
     },
     {
       title: "Backend & Database",
       icon: <Server size={28} />,
       color: "#10B981",
-      skills: [
-        { name: "Laravel", icon: "🪄", level: "intermediate", projects: 3 },
-        { name: "PHP", icon: "🐘", level: "intermediate", projects: 4 },
-        { name: "MySQL", icon: "🐬", level: "intermediate", projects: 3 },
-        { name: "Node.js", icon: "🟢", level: "beginner", projects: 1 },
-        { name: "REST API", icon: "🔗", level: "intermediate", projects: 3 }
-      ]
+      skills: skills.filter(skill => skill.category === 'backend' || skill.category === 'database')
     },
     {
-      title: "Tools & Others",
+      title: "Tools & Design",
       icon: <Terminal size={28} />,
       color: "#3B82F6",
-      skills: [
-        { name: "Git/GitHub", icon: "🐙", level: "intermediate", projects: 8 },
-        { name: "Figma", icon: "🎨", level: "beginner", projects: 2 },
-        { name: "VS Code", icon: "💻", level: "advanced", projects: 15 },
-        { name: "Linux", icon: "🐧", level: "beginner", projects: 2 }
-      ]
+      skills: skills.filter(skill => skill.category === 'tools' || skill.category === 'design')
     }
   ];
 
-  const getLevelColor = (level) => {
-    switch(level) {
-      case 'expert': return 'level-expert';
-      case 'advanced': return 'level-advanced';
-      case 'intermediate': return 'level-intermediate';
-      default: return 'level-beginner';
-    }
+  // Map untuk ikon skill
+  const getSkillIcon = (skillName) => {
+    const iconMap = {
+      'React': '⚛️',
+      'JavaScript': '📘',
+      'HTML/CSS': '🎯',
+      'Tailwind CSS': '🎨',
+      'Laravel': '🪄',
+      'PHP': '🐘',
+      'MySQL': '🐬',
+      'Node.js': '🟢',
+      'Git/GitHub': '🐙',
+      'Figma': '🎨',
+      'REST API': '🔗',
+      'Nuxt.js': '🟢',
+      'Vue.js': '🟢',
+    };
+    return iconMap[skillName] || '💻';
+  };
+
+  // Map untuk jumlah proyek berdasarkan skill
+  const getProjectCount = (skillName) => {
+    const projectCounts = {
+      'React': 3,
+      'JavaScript': 5,
+      'HTML/CSS': 10,
+      'Tailwind CSS': 4,
+      'Laravel': 3,
+      'PHP': 4,
+      'MySQL': 3,
+      'Node.js': 2,
+      'Git/GitHub': 8,
+      'Figma': 2,
+      'REST API': 3,
+      'Nuxt.js': 2,
+      'Vue.js': 1,
+    };
+    return projectCounts[skillName] || 1;
   };
 
   const getLevelText = (level) => {
@@ -117,11 +132,11 @@ function ModernSkillsSection() {
                 <div
                   key={skillIndex}
                   className={`skill-pill ${skill.level} skill-tooltip`}
-                  data-tooltip={`${getLevelText(skill.level)} • ${skill.projects} proyek`}
+                  data-tooltip={`${getLevelText(skill.level)} • ${getProjectCount(skill.name)} proyek`}
                   onMouseEnter={() => setActiveSkill(skill.name)}
                   onMouseLeave={() => setActiveSkill(null)}
                 >
-                  <span className="skill-pill-icon">{skill.icon}</span>
+                  <span className="skill-pill-icon">{getSkillIcon(skill.name)}</span>
                   {skill.name}
                 </div>
               ))}
@@ -164,30 +179,6 @@ function TypingAnimation({ text, speed = 100, delay = 500 }) {
 
     return () => clearTimeout(timeout);
   }, [currentIndex, isDeleting, text, speed, isDone]);
-
-  return (
-    <span className="typing-text">
-      {displayedText}
-      <span className="cursor">|</span>
-    </span>
-  );
-}
-
-// Atau versi sederhana (hanya typing sekali):
-function SimpleTypingAnimation({ text, speed = 100 }) {
-  const [displayedText, setDisplayedText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText(prev => prev + text[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, speed);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, text, speed]);
 
   return (
     <span className="typing-text">
@@ -352,7 +343,7 @@ function App() {
                     <div className="hero-text">
                         <span className="badge">
                             <Sparkles size={14} style={{ marginRight: '6px' }} />
-                            Mencari Magang
+                            {profile.availability}
                         </span>
                         
                         <h1 className="hero-title">
@@ -373,8 +364,8 @@ function App() {
                                 <span className="stat-label">Projects</span>
                             </div>
                             <div className="stat-item">
-                                <span className="stat-number">2</span>
-                                <span className="stat-label">Tahun Organisasi</span>
+                                <span className="stat-number">{organizations.length}</span>
+                                <span className="stat-label">Organisasi</span>
                             </div>
                             <div className="stat-item">
                                 <span className="stat-number">{education[0].gpa}</span>
