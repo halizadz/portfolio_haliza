@@ -1,7 +1,7 @@
 // Data Portfolio - Menggantikan API Laravel
 export const portfolioData = {
   profile: {
-    name: "Haliza Adzikia Sukarno",
+    name: "Haliza A",
     email: "halizaadzikia@gmail.com",
     phone: "+62 896-8465-6716",
     location: "Karawang, Indonesia",
@@ -10,7 +10,6 @@ export const portfolioData = {
     photo: "/haliza.jpg", // Letakkan foto di folder public/
     social_links: {
       github: "https://github.com/halizadz",
-      linkedin: "https://linkedin.com/in/haliza-adzikia-sukarno-a993482b4",
       instagram: "https://instagram.com/halizadz",
     },
     availability: "Mencari Magang",
