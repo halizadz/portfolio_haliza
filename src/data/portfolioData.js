@@ -7,7 +7,7 @@ export const portfolioData = {
     location: "Karawang, Indonesia",
     about:
       "Mahasiswa semester 5 Informatika yang antusias dengan pengembangan web modern. Aktif dalam organisasi kampus dengan pengalaman kepemimpinan dan kolaborasi tim. Memiliki minat dalam React, Laravel, dan teknologi web terkini.",
-    photo: "/haliza.jpg", // Letakkan foto di folder public/
+    photo: "/haliza (2).jepg", // Letakkan foto di folder public/
     social_links: {
       github: "https://github.com/halizadz",
       instagram: "https://instagram.com/halizadz",
